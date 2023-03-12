@@ -1,5 +1,3 @@
-
-
 /* -*- Mode:C++; c-file-style:"gnu"; indent-tabs-mode:nil; -*- */
 /*
  * Copyright (c) 2014-2022, Arizona Board of Regents.
@@ -44,7 +42,6 @@
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/variables_map.hpp>
-#include <stdfloat>
 
 namespace po = boost::program_options;
 using namespace ndn::time_literals;
@@ -180,7 +177,7 @@ private:
       }
 
       if (parameter == "TrafficPercentage") {
-        m_trafficPercentage = std::stof(value);
+        m_trafficPercentage = std::stoul(value);
       }
       else if (parameter == "Name") {
         m_name = value;
@@ -223,7 +220,7 @@ private:
     }
 
   public:
-    float m_trafficPercentage = 0f;
+    uint8_t m_trafficPercentage = 0;
     std::string m_name;
     std::optional<std::size_t> m_nameAppendBytes;
     std::optional<uint64_t> m_nameAppendSeqNum;
@@ -475,7 +472,7 @@ private:
       return;
     }
 
-    static std::uniform_real_distribution<float> trafficDist(1.0f, 100.0f);
+    static std::uniform_int_distribution<> trafficDist(1, 100);
     int trafficKey = trafficDist(ndn::random::getRandomNumberEngine());
 
     int cumulativePercentage = 0;
